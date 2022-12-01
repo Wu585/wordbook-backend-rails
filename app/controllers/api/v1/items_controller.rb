@@ -4,11 +4,11 @@ class Api::V1::ItemsController < ApplicationController
     render json: {
       resource: items,
       count: Item.count
-    }
+    }, status: 201
   end
 
   def create
-    item = Item.new amount: 1
+    item = Item.new amount: params[:amount]
     if item.save
       render json: { resource: item }
     end
