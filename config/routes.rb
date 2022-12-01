@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resource :validation_codes,only: [:create]
-      resource :session, only: [:create,:destroy]
+      resources :validation_codes, only: [:create]
+      resource :session, only: [:create, :destroy]
       resource :me, only: [:show]
-      resource :items
-      resource :wordRecord
+      resources :items
+      resources :word_records
     end
   end
 end
