@@ -33,6 +33,7 @@ if [ "$(docker ps -aq -f name=^${DB_HOST}$)" ]; then
 else
   docker run -d --name $DB_HOST \
             --network=network1 \
+            -p 5432:5432 \
             -e POSTGRES_USER=wordbook \
             -e POSTGRES_DB=wordbook_production \
             -e POSTGRES_PASSWORD=$DB_PASSWORD \
