@@ -4,7 +4,7 @@ class Api::V1::ItemsController < ApplicationController
     render json: {
       resource: items,
       count: Item.count
-    }, status: 201
+    }, status: 200
   end
 
   def create
