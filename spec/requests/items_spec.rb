@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Items", type: :request do
-  describe "index by page" do
-    it "works! (now write some real specs)" do
+  describe "获取账目" do
+    it "分页" do
       11.times { Item.create amount: 100 }
       expect(Item.count).to eq 11
       get '/api/v1/items'
@@ -14,6 +14,17 @@ RSpec.describe "Items", type: :request do
       get '/api/v1/items?page=2&per_page=5'
       json = JSON.parse(response.body)
       expect(json["resource"].size).to eq(5)
+    end
+    it "按时间筛选" do
+      item1 = Item.create amount: 100, created_at: Time.new(2020, 5, 1)
+      item2 = Item.create amount: 100, created_at: Time.new(2020, 8, 1)
+      item3 = Item.create amount: 100, created_at: Time.new(2021, 5, 1)
+      get '/api/v1/items?created_after=2019-01-01&created_before=2020-10-1'
+      expect(response).to have_http_status :ok
+      json = JSON.parse response.body
+      expect(json["resource"].size).to eq 2
+      expect(json["resource"][0]["id"]).to eq item1.id
+      expect(json["resource"][1]["id"]).to eq item2.id
     end
   end
 
