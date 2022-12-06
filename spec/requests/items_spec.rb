@@ -26,6 +26,15 @@ RSpec.describe "Items", type: :request do
       expect(json["resource"][0]["id"]).to eq item1.id
       expect(json["resource"][1]["id"]).to eq item2.id
     end
+    it "按时间筛选（边界条件）" do
+      item1 = Item.create amount: 100, created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z")
+      item2 = Item.create amount: 100, created_at: Time.new(2021, 8, 1)
+      get '/api/v1/items?created_after=2020-05-01&created_before=2020-10-1'
+      expect(response).to have_http_status :ok
+      json = JSON.parse response.body
+      expect(json["resource"].size).to eq 1
+      expect(json["resource"][0]["id"]).to eq item1.id
+    end
   end
 
   describe "create" do
