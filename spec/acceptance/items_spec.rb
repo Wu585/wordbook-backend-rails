@@ -15,7 +15,15 @@ resource "账目" do
     let(:created_after) { '2020-05-01' }
     let(:created_before) { '2020-10-01' }
     example "获取账目" do
-      11.times { Item.create amount: 100, created_at: '2020-06-01' }
+      user = User.create email: '1@qq.com'
+      11.times { Item.create amount: 100, created_at: '2020-06-01', user_id: user.id }
+      jwt = ''
+      no_doc do
+        client.post '/api/v1/session', email: '1@qq.com', code: '123456'
+        json = JSON.parse response_body
+        jwt = json["jwt"]
+      end
+      header 'Authorization', "Bearer #{jwt}"
       do_request
       expect(status).to eq 200
       json = JSON.parse response_body
