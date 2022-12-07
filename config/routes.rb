@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resource :session, only: [:create, :destroy]
       resource :me, only: [:show]
       resources :items
+      resources :tags
       resources :word_records
     end
   end
