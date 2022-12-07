@@ -5,7 +5,7 @@ class AutoJwt
 
   def call(env)
     # 不需要 jwt 的接口
-    return @app.call(env) if ['/api/v1/session','/api/v1/validation_codes'].include? env['PATH_INFO']
+    return @app.call(env) if ['/','/api/v1/session','/api/v1/validation_codes'].include? env['PATH_INFO']
     # 需要 jwt 的接口
     header = env['HTTP_AUTHORIZATION']
     token = header.split(' ')[1] rescue ''
