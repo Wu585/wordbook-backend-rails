@@ -6,7 +6,7 @@ RSpec.describe "Me", type: :request do
   describe "获取当前用户" do
     it "登录后成功获取" do
       user = User.create email: '15151851516@163.com'
-      post '/api/v1/session', params: { email: '15151851516@163.com', code: '123456' }
+      # post '/api/v1/session', params: { email: '15151851516@163.com', code: '123456' }
       get '/api/v1/me', headers: user.generate_auth_header
       expect(response).to have_http_status 200
       json = JSON.parse response.body

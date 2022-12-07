@@ -15,7 +15,7 @@ RSpec.describe "Items", type: :request do
       user2 = User.create email: '2@qq.com'
       11.times { Item.create amount: 100, user_id: user1.id }
       11.times { Item.create amount: 100, user_id: user2.id }
-      post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
+      # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
       get '/api/v1/items', headers: user1.generate_auth_header
       json = JSON.parse(response.body)
       expect(json["resource"].size).to eq(10)
@@ -28,7 +28,7 @@ RSpec.describe "Items", type: :request do
     end
     it "按时间筛选" do
       user1 = User.create email: '1@qq.com'
-      post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
+      # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
       item1 = Item.create amount: 100, created_at: Time.new(2020, 5, 1), user_id: user1.id
       item2 = Item.create amount: 100, created_at: Time.new(2020, 8, 1), user_id: user1.id
       item3 = Item.create amount: 100, created_at: Time.new(2021, 5, 1), user_id: user1.id
@@ -41,7 +41,7 @@ RSpec.describe "Items", type: :request do
     end
     it "按时间筛选（边界条件）" do
       user1 = User.create email: '1@qq.com'
-      post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
+      # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
       item1 = Item.create amount: 100, created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
       item2 = Item.create amount: 100, created_at: Time.new(2021, 8, 1), user_id: user1.id
       get '/api/v1/items?created_after=2020-05-01&created_before=2020-10-1', headers: user1.generate_auth_header
@@ -52,7 +52,7 @@ RSpec.describe "Items", type: :request do
     end
     it "按时间筛选（边界条件2）" do
       user1 = User.create email: '1@qq.com'
-      post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
+      # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
       item1 = Item.create amount: 100, created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
       item2 = Item.create amount: 100, created_at: "2021-08-01", user_id: user1.id
       get '/api/v1/items?created_after=2021-08-01', headers: user1.generate_auth_header
@@ -63,7 +63,7 @@ RSpec.describe "Items", type: :request do
     end
     it "按时间筛选（边界条件3）" do
       user1 = User.create email: '1@qq.com'
-      post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
+      # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
       item1 = Item.create amount: 100, created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
       item2 = Item.create amount: 100, created_at: "2021-08-01", user_id: user1.id
       get '/api/v1/items?created_before=2020-05-01', headers: user1.generate_auth_header
