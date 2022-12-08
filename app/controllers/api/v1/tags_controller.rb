@@ -26,6 +26,7 @@ class Api::V1::TagsController < ApplicationController
 
   def update
     tag = Tag.find params[:id]
+    return head 403 unless tag.user_id == request.env["current_user_id"]
     tag.update params.permit(:name, :sign)
     if tag.errors.empty?
       render json: { resource: tag }

@@ -77,6 +77,14 @@ RSpec.describe "Api::V1::Tags", type: :request do
       expect(json["resource"]["name"]).to eq "x"
       expect(json["resource"]["sign"]).to eq "y"
     end
+    it '登录后修改别人标签' do
+      user1 = User.create email: '1@qq.com'
+      user2 = User.create email: '2@qq.com'
+      tag1 = Tag.create name: "x", sign: "x", user_id: user1.id
+      tag2 = Tag.create name: "x", sign: "x", user_id: user2.id
+      patch "/api/v1/tags/#{tag2.id}", params: { name: "y", sign: "y" }, headers: user1.generate_auth_header
+      expect(response).to have_http_status 403
+    end
   end
 
   describe "删除标签" do
