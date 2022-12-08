@@ -109,36 +109,9 @@ table th, table td {
       <h1>标签 API</h1>
 
       <div class="article">
-        <h2>修改标签</h2>
-        <h3>PATCH api/v1/tags/:id</h3>
+        <h2>获取单个标签</h2>
+        <h3>GET /api/v1/tags/:id</h3>
 
-          <h3>Parameters</h3>
-          <table class="parameters table table-striped table-bordered table-condensed">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                    <span class="name">name</span>
-                </td>
-                <td>
-                  <span class="description">标签名</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                    <span class="name">sign</span>
-                </td>
-                <td>
-                  <span class="description">标签类型</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
 
           <h3>Response Fields</h3>
           <table class="response-fields table table-striped table-bordered table-condensed">
@@ -196,18 +169,16 @@ table th, table td {
 
             <h4>Headers</h4>
             <pre class="request headers">Version: HTTP/1.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMDIsImV4cCI6MTY3MDQ4NjU3NX0.19t4-F2wtrod3K6J9nxsKzJLDV4cTrHDh2wNCCtl2qc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxOTksImV4cCI6MTY3MDQ4NjU3NX0.rWPN5x3l5alohoTd8G-Cny1Z438vt8458kIK8BVUakw
 Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PATCH api/v1/tags/390</pre>
+          <pre class="request route highlight">GET /api/v1/tags/377</pre>
 
 
-            <h4>Body</h4>
-            <pre class="request body">{"name":"y","sign":"y"}</pre>
 
 
             <h3>Response</h3>
@@ -220,23 +191,23 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;ecec4d56ab916d34fe2a51cdd3c71e7e&quot;
+ETag: W/&quot;dfcd30b9e2c9053469a877f8c4be869c&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: c29fe06b-ce32-4ba7-9419-d6ed9b657c70
-X-Runtime: 0.004756
+X-Request-Id: c5157d10-ee5a-4bf9-a789-aed3de72c401
+X-Runtime: 0.003387
 Content-Length: 157</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
   &quot;resource&quot;: {
-    &quot;name&quot;: &quot;y&quot;,
-    &quot;sign&quot;: &quot;y&quot;,
-    &quot;id&quot;: 390,
-    &quot;user_id&quot;: 202,
+    &quot;id&quot;: 377,
+    &quot;user_id&quot;: 199,
+    &quot;name&quot;: &quot;x&quot;,
+    &quot;sign&quot;: &quot;x&quot;,
     &quot;deleted_at&quot;: null,
-    &quot;created_at&quot;: &quot;2022-12-08T06:02:55.142Z&quot;,
-    &quot;updated_at&quot;: &quot;2022-12-08T06:02:55.146Z&quot;
+    &quot;created_at&quot;: &quot;2022-12-08T06:02:55.082Z&quot;,
+    &quot;updated_at&quot;: &quot;2022-12-08T06:02:55.082Z&quot;
   }
 }</pre>
       </div>
