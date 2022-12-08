@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Api::V1::Tags", type: :request do
   describe "获取单个标签" do
-    it '未登录获取标签' do
+    it '未登录获取单个标签' do
       user = User.create email: '1@qq.com'
       tag = Tag.create name: "x", sign: "x", user_id: user.id
       get "/api/v1/tags/#{tag.id}"
@@ -16,7 +16,7 @@ RSpec.describe "Api::V1::Tags", type: :request do
       json = JSON.parse response.body
       expect(json["resource"]["id"]).to eq tag.id
     end
-    it '登录后获取不属于自己的标签' do
+    it '登录后获取不属于自己的单个标签' do
       user1 = User.create email: '1@qq.com'
       user2 = User.create email: '1@qq.com'
       tag1 = Tag.create name: "x", sign: "x", user_id: user1.id
@@ -27,11 +27,11 @@ RSpec.describe "Api::V1::Tags", type: :request do
   end
 
   describe "获取标签列表" do
-    it '未登录获取标签' do
+    it '未登录获取标签列表' do
       get '/api/v1/tags'
       expect(response).to have_http_status 401
     end
-    it '登录后获取标签' do
+    it '登录后获取标签列表' do
       user1 = User.create email: '1@qq.com'
       user2 = User.create email: '2@qq.com'
       11.times do |i|
