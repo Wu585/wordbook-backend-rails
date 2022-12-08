@@ -1,4 +1,10 @@
 class Api::V1::TagsController < ApplicationController
+  def show
+    tag = Tag.find params[:id]
+    return head :forbidden unless tag.user_id == request.env["current_user_id"]
+    render json: { resource: tag }
+  end
+
   def index
     current_user_id = request.env["current_user_id"]
     return head :unauthorized if current_user_id.nil?
