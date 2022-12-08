@@ -22,4 +22,33 @@ RSpec.describe "Api::V1::Tags", type: :request do
       expect(json["resource"].size).to eq 1
     end
   end
+
+  describe "创建标签" do
+    it '未登录创建标签' do
+      post '/api/v1/tags', params: { name: 'x', sign: 'x' }
+      expect(response).to have_http_status 401
+    end
+    it '登录创建标签' do
+      user = User.create email: "1@qq.com"
+      post '/api/v1/tags', params: { name: 'name', sign: 'sign' }, headers: user.generate_auth_header
+      json = JSON.parse response.body
+      expect(response).to have_http_status 200
+      expect(json["resource"]["name"]).to eq "name"
+      expect(json["resource"]["sign"]).to eq "sign"
+    end
+    it '登录创建失败，因为name为空' do
+      user = User.create email: "1@qq.com"
+      post '/api/v1/tags', params: { sign: 'sign' }, headers: user.generate_auth_header
+      json = JSON.parse response.body
+      expect(response).to have_http_status 422
+      expect(json["errors"]["name"][0]).to eq "can't be blank"
+    end
+    it '登录创建失败，因为sign为空' do
+      user = User.create email: "1@qq.com"
+      post '/api/v1/tags', params: { name: 'name' }, headers: user.generate_auth_header
+      json = JSON.parse response.body
+      expect(response).to have_http_status 422
+      expect(json["errors"]["sign"][0]).to eq "can't be blank"
+    end
+  end
 end
