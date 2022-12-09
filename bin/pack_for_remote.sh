@@ -9,7 +9,10 @@ current_dir=$(dirname $0)
 deploy_dir=/home/$user/deploys/$time
 gemfile=$current_dir/../Gemfile
 gemfile_lock=$current_dir/../Gemfile.lock
-vendor_cache_dir=$current_dir/../vendor/cache
+#vendor_cache_dir=$current_dir/../vendor/cache
+vendor_dir=$current_dir/../vendor
+vendor_1=rspec_api_documentation
+api_dir=$current_dir/../doc/api
 
 function title {
   echo
@@ -21,7 +24,7 @@ function title {
 
 
 title '打包源代码为压缩文件'
-mkdir $cache_dir
+mkdir -p $cache_dir
 bundle cache
 tar --exclude="tmp/cache/*" --exclude="tmp/deploy_cache/*" -czv -f $dist *
 title '创建远程目录'
@@ -36,6 +39,8 @@ title '上传 Dockerfile'
 scp $current_dir/../config/host.Dockerfile $user@$ip:$deploy_dir/Dockerfile
 title '上传 setup 脚本'
 scp $current_dir/setup_remote.sh $user@$ip:$deploy_dir/
+title '上传 API 文档'
+scp -r $api_dir $user@$ip:$deploy_dir/
 title '上传版本号'
 ssh $user@$ip "echo $time > $deploy_dir/version"
 title '执行远程脚本'
