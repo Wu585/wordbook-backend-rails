@@ -143,6 +143,31 @@ RSpec.describe "Items", type: :request do
       expect(json["resource"][2]["amount"]).to eq 300
       expect(json["total"]).to eq 900
     end
+    it '按标签ID分组' do
+      user = User.create! email: '1@qq.com'
+      tag1 = Tag.create! name: 'tag1', sign: 'x', user_id: user.id
+      tag2 = Tag.create! name: 'tag2', sign: 'x', user_id: user.id
+      tag3 = Tag.create! name: 'tag3', sign: 'x', user_id: user.id
+      Item.create! amount: 100, kind: 'expenses', tags_id: [tag1.id, tag2.id], happened_at: '2018-06-18T00:00:00+08:00', user_id: user.id
+      Item.create! amount: 200, kind: 'expenses', tags_id: [tag2.id, tag3.id], happened_at: '2018-06-18T00:00:00+08:00', user_id: user.id
+      Item.create! amount: 300, kind: 'expenses', tags_id: [tag3.id, tag1.id], happened_at: '2018-06-18T00:00:00+08:00', user_id: user.id
+      get '/api/v1/items/summary',params:{
+        happened_after:'2018-01-01',
+        happened_before:'2019-01-01',
+        kind:'expenses',
+        group_by:'tag_id'
+      },headers: user.generate_auth_header
+      expect(response).to have_http_status 200
+      json = JSON.parse response.body
+      expect(json["resource"].size).to eq 3
+      expect(json["resource"][0]["tag_id"]).to eq tag3.id
+      expect(json["resource"][0]["amount"]).to eq 500
+      expect(json["resource"][1]["tag_id"]).to eq tag1.id
+      expect(json["resource"][1]["amount"]).to eq 400
+      expect(json["resource"][2]["tag_id"]).to eq tag2.id
+      expect(json["resource"][2]["amount"]).to eq 300
+      expect(json["total"]).to eq 600
+    end
   end
 
 end
