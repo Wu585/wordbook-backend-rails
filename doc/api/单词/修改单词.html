@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>账目 API</title>
+    <title>单词 API</title>
     <meta charset="utf-8">
     <style>
       
@@ -106,11 +106,11 @@ table th, table td {
   </head>
   <body>
     <div class="container">
-      <h1>账目 API</h1>
+      <h1>单词 API</h1>
 
       <div class="article">
-        <h2>统计信息（按tag_id分组）</h2>
-        <h3>GET /api/v1/items/summary</h3>
+        <h2>修改单词</h2>
+        <h3>PATCH api/v1/words/:id</h3>
 
           <h3>Parameters</h3>
           <table class="parameters table table-striped table-bordered table-condensed">
@@ -122,35 +122,19 @@ table th, table td {
             </thead>
             <tbody>
               <tr>
-                <td class="required">
-                    <span class="name">happened_after</span>
+                <td>
+                    <span class="name">content</span>
                 </td>
                 <td>
-                  <span class="description">时间起点</span>
+                  <span class="description">单词</span>
                 </td>
               </tr>
               <tr>
-                <td class="required">
-                    <span class="name">happened_before</span>
+                <td>
+                    <span class="name">description</span>
                 </td>
                 <td>
-                  <span class="description">时间终点</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="required">
-                    <span class="name">kind</span>
-                </td>
-                <td>
-                  <span class="description">账目类型</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="required">
-                    <span class="name">group_by</span>
-                </td>
-                <td>
-                  <span class="description">分组依据</span>
+                  <span class="description">释义</span>
                 </td>
               </tr>
             </tbody>
@@ -167,18 +151,42 @@ table th, table td {
             <tbody>
               <tr>
                 <td>
-                    <span class="name">resource</span>
+                    <span class="name">resource[id]</span>
                 </td>
                 <td>
-                  <span class="description">分组信息</span>
+                  <span class="description">ID</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">total</span>
+                    <span class="name">resource[user_id]</span>
                 </td>
                 <td>
-                  <span class="description">总金额（单位：分）</span>
+                  <span class="description">用户ID</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[content]</span>
+                </td>
+                <td>
+                  <span class="description">单词</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[description]</span>
+                </td>
+                <td>
+                  <span class="description">释义</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[deleted_at]</span>
+                </td>
+                <td>
+                  <span class="description">删除时间</span>
                 </td>
               </tr>
             </tbody>
@@ -188,21 +196,18 @@ table th, table td {
 
             <h4>Headers</h4>
             <pre class="request headers">Version: HTTP/1.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MTksImV4cCI6MTY3MzI3NjQwNX0.FM6byWYji9UoQ_PSG_yZSb89ULQL1R_fuQIKDwXp9Oc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo4MjksImV4cCI6MTY3MzI3NjQwNX0.dmnbxJC-GSvYdpt5qwEO1_qKSkeXzq0QuXq_ATC3was
 Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">GET /api/v1/items/summary?happened_after=2018-01-01&amp;happened_before=2019-01-01&amp;kind=expenses&amp;group_by=tag_id</pre>
+          <pre class="request route highlight">PATCH api/v1/words/847</pre>
 
-            <h4>Query Parameters</h4>
-            <pre class="request query_parameters highlight">happened_after: 2018-01-01
-happened_before: 2019-01-01
-kind: expenses
-group_by: tag_id</pre>
 
+            <h4>Body</h4>
+            <pre class="request body">{"content":"hi","description":"你好"}</pre>
 
 
             <h3>Response</h3>
@@ -215,30 +220,24 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;e9faf46047b5eb15ac741752335893c5&quot;
+ETag: W/&quot;6840a3e4a0165543fd6e9421b2e003a3&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 4911338b-c80e-4e5a-8628-ab4f1fd10833
-X-Runtime: 0.003779
-Content-Length: 110</pre>
+X-Request-Id: 6bcf223b-97ea-4da2-8aaf-af5f7b40f3a9
+X-Runtime: 0.003555
+Content-Length: 173</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
-  &quot;resource&quot;: [
-    {
-      &quot;tag_id&quot;: 677,
-      &quot;amount&quot;: 500
-    },
-    {
-      &quot;tag_id&quot;: 675,
-      &quot;amount&quot;: 400
-    },
-    {
-      &quot;tag_id&quot;: 676,
-      &quot;amount&quot;: 300
-    }
-  ],
-  &quot;total&quot;: 600
+  &quot;resource&quot;: {
+    &quot;content&quot;: &quot;hi&quot;,
+    &quot;description&quot;: &quot;你好&quot;,
+    &quot;id&quot;: 847,
+    &quot;user_id&quot;: 829,
+    &quot;deleted_at&quot;: null,
+    &quot;created_at&quot;: &quot;2023-01-09T13:00:05.785Z&quot;,
+    &quot;updated_at&quot;: &quot;2023-01-09T13:00:05.785Z&quot;
+  }
 }</pre>
       </div>
     </div>
