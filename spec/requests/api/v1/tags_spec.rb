@@ -18,7 +18,7 @@ RSpec.describe "Api::V1::Tags", type: :request do
     end
     it '登录后获取不属于自己的单个标签' do
       user1 = User.create email: '1@qq.com'
-      user2 = User.create email: '1@qq.com'
+      user2 = User.create email: '2@qq.com'
       tag1 = Tag.create name: "x", sign: "x", user_id: user1.id
       tag2 = Tag.create name: "x", sign: "x", user_id: user2.id
       get "/api/v1/tags/#{tag2.id}", headers: user1.generate_auth_header
