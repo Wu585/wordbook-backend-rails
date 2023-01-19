@@ -5,7 +5,7 @@ class Api::V1::ValidationCodesController < ApplicationController
       render status: :too_many_requests
     end
 =end
-    return render status: :too_many_requests if ValidationCode.exists?(email: params[:email],kind: 'sign_in',created_at: 1.minute.ago..Time.now)
+    return render status: :too_many_requests if ValidationCode.exists?(email: params[:email],kind: 'sign_in',created_at: 3.seconds.ago..Time.now)
 
     validation_code = ValidationCode.new email: params[:email],
                                          kind: 'sign_in'
