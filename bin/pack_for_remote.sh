@@ -24,17 +24,24 @@ function title {
 
 
 title '打包源代码为压缩文件'
+# 在哪个目录下执行就在哪个目录下创建临时目录
 mkdir -p $cache_dir
-bundle cache
 tar --exclude="tmp/cache/*" --exclude="tmp/deploy_cache/*" -czv -f $dist *
+title "打包本地依赖 ${vendor_1}"
+bundle cache --quiet
+tar -cz -f "$vendor_dir/cache.tar.gz" -C ./vendor cache
+tar -cz -f "$vendor_dir/$vendor_1.tar.gz" -C ./vendor $vendor_1
 title '创建远程目录'
 ssh $user@$ip "mkdir -p $deploy_dir/vendor"
-title '上传压缩文件'
+title '上传源代码和依赖'
 scp $dist $user@$ip:$deploy_dir/
 yes | rm $dist
 scp $gemfile $user@$ip:$deploy_dir/
 scp $gemfile_lock $user@$ip:$deploy_dir/
-scp -r $vendor_cache_dir $user@$ip:$deploy_dir/vendor/
+scp -r $vendor_dir/cache.tar.gz $user@$ip:$deploy_dir/vendor/
+yes | rm $vendor_dir/cache.tar.gz
+scp -r $vendor_dir/$vendor_1.tar.gz $user@$ip:$deploy_dir/vendor/
+yes | rm $vendor_dir/$vendor_1.tar.gz
 title '上传 Dockerfile'
 scp $current_dir/../config/host.Dockerfile $user@$ip:$deploy_dir/Dockerfile
 title '上传 setup 脚本'
