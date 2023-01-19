@@ -12,6 +12,7 @@ ADD vendor/cache.tar.gz /wordbook/vendor/
 ADD vendor/rspec_api_documentation.tar.gz /wordbook/vendor/
 # 只安装生产环境的包
 RUN bundle config set --local without 'development test'
+# --local指的是用本地/vendor目录下的cache依赖
 RUN bundle install --local
 
 # ADD 会自动解压缩tar包
