@@ -110,9 +110,9 @@ RSpec.describe "Items", type: :request do
       post '/api/v1/items', params: {}, headers: user.generate_auth_header
       expect(response).to have_http_status 422
       json = JSON.parse response.body
-      expect(json["errors"]["amount"][0]).to eq "can't be blank"
-      expect(json["errors"]["tags_id"][0]).to eq "can't be blank"
-      expect(json["errors"]["happened_at"][0]).to eq "can't be blank"
+      expect(json["errors"]["amount"][0]).to eq "必填"
+      expect(json["errors"]["tags_id"][0]).to eq "必填"
+      expect(json["errors"]["happened_at"][0]).to eq "必填"
     end
   end
 

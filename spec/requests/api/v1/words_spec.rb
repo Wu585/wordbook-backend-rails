@@ -64,14 +64,14 @@ RSpec.describe "Words", type: :request do
       post '/api/v1/words', params: { description: '你好' }, headers: user.generate_auth_header
       json = JSON.parse response.body
       expect(response).to have_http_status 422
-      expect(json["errors"]["content"][0]).to eq "can't be blank"
+      expect(json["errors"]["content"][0]).to eq "必填"
     end
     it '登录创建失败，因为descrption为空' do
       user = User.create email: '1@qq.com'
       post '/api/v1/words', params: { content: 'hi' }, headers: user.generate_auth_header
       json = JSON.parse response.body
       expect(response).to have_http_status 422
-      expect(json["errors"]["description"][0]).to eq "can't be blank"
+      expect(json["errors"]["description"][0]).to eq "必填"
     end
   end
 

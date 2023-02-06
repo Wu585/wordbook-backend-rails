@@ -66,14 +66,14 @@ RSpec.describe "Api::V1::Tags", type: :request do
       post '/api/v1/tags', params: { sign: 'sign' }, headers: user.generate_auth_header
       json = JSON.parse response.body
       expect(response).to have_http_status 422
-      expect(json["errors"]["name"][0]).to eq "can't be blank"
+      expect(json["errors"]["name"][0]).to eq "必填"
     end
     it '登录创建失败，因为sign为空' do
       user = User.create email: "1@qq.com"
       post '/api/v1/tags', params: { name: 'name' }, headers: user.generate_auth_header
       json = JSON.parse response.body
       expect(response).to have_http_status 422
-      expect(json["errors"]["sign"][0]).to eq "can't be blank"
+      expect(json["errors"]["sign"][0]).to eq "必填"
     end
   end
 

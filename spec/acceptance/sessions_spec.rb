@@ -6,7 +6,7 @@ resource "会话" do
     parameter :email, '邮箱', required: true
     parameter :code, '验证码', required: true
     response_field :jwt, '用于验证用户身份的 token'
-    let(:email) { '1@qq.com' }
+    let(:email) { '15151851516@163.com' }
     let(:code) { '123456' }
     example "登录" do
       do_request

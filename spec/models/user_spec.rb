@@ -8,6 +8,6 @@ RSpec.describe User, :type => :model do
   example "用户表中不能有重复 email" do
     @other = User.create email: '1@qq.com'
     expect(@other.valid?).to eq(false)
-    expect(@other.errors[:email][0]).to eq 'has already been taken'
+    expect(@other.errors[:email][0]).to eq '已存在,不可重复创建'
   end
 end
