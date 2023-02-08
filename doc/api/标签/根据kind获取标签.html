@@ -109,8 +109,8 @@ table th, table td {
       <h1>标签 API</h1>
 
       <div class="article">
-        <h2>修改标签</h2>
-        <h3>PATCH api/v1/tags/:id</h3>
+        <h2>根据kind获取标签</h2>
+        <h3>GET /api/v1/tags</h3>
 
           <h3>Parameters</h3>
           <table class="parameters table table-striped table-bordered table-condensed">
@@ -123,18 +123,18 @@ table th, table td {
             <tbody>
               <tr>
                 <td>
-                    <span class="name">name</span>
+                    <span class="name">page</span>
                 </td>
                 <td>
-                  <span class="description">标签名</span>
+                  <span class="description">页码</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">sign</span>
+                    <span class="name">kind</span>
                 </td>
                 <td>
-                  <span class="description">标签类型</span>
+                  <span class="description">分类</span>
                 </td>
               </tr>
             </tbody>
@@ -189,6 +189,14 @@ table th, table td {
                   <span class="description">删除时间</span>
                 </td>
               </tr>
+              <tr>
+                <td>
+                    <span class="name">resource[kind]</span>
+                </td>
+                <td>
+                  <span class="description">分类</span>
+                </td>
+              </tr>
             </tbody>
           </table>
 
@@ -196,18 +204,18 @@ table th, table td {
 
             <h4>Headers</h4>
             <pre class="request headers">Version: HTTP/1.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0MzUsImV4cCI6MTY3NTg0NTkwNn0.-36eSaZhOTHMshbAHLK2UWeae-XQQFklaqbCYk5_1yU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0MzMsImV4cCI6MTY3NTg0NTkwNn0.LFztj_UQgMoeOmf6KvrFjX8g-_anuO07UZ8yTKuVHt8
 Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PATCH api/v1/tags/865</pre>
+          <pre class="request route highlight">GET /api/v1/tags?kind=income</pre>
 
+            <h4>Query Parameters</h4>
+            <pre class="request query_parameters highlight">kind: income</pre>
 
-            <h4>Body</h4>
-            <pre class="request body">{"name":"y","sign":"y"}</pre>
 
 
             <h3>Response</h3>
@@ -220,24 +228,81 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;da09070740425eb8eaf797f38ee21e2e&quot;
+ETag: W/&quot;864a3b393b34a4aa2dc8302652ca1654&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: e688e1f2-33ba-4986-9a15-22a51fcc5626
-X-Runtime: 0.006171
-Content-Length: 175</pre>
+X-Request-Id: a66ce399-6855-4355-8ef8-c392cd2256be
+X-Runtime: 0.004416
+Content-Length: 1024</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
-  &quot;resource&quot;: {
-    &quot;name&quot;: &quot;y&quot;,
-    &quot;sign&quot;: &quot;y&quot;,
-    &quot;id&quot;: 865,
-    &quot;user_id&quot;: 435,
-    &quot;deleted_at&quot;: null,
-    &quot;created_at&quot;: &quot;2023-02-08T06:45:06.468Z&quot;,
-    &quot;updated_at&quot;: &quot;2023-02-08T06:45:06.475Z&quot;,
-    &quot;kind&quot;: &quot;expenses&quot;
+  &quot;resource&quot;: [
+    {
+      &quot;id&quot;: 858,
+      &quot;user_id&quot;: 433,
+      &quot;name&quot;: &quot;x&quot;,
+      &quot;sign&quot;: &quot;x&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;created_at&quot;: &quot;2023-02-08T06:45:06.432Z&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-08T06:45:06.432Z&quot;,
+      &quot;kind&quot;: &quot;income&quot;
+    },
+    {
+      &quot;id&quot;: 859,
+      &quot;user_id&quot;: 433,
+      &quot;name&quot;: &quot;x&quot;,
+      &quot;sign&quot;: &quot;x&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;created_at&quot;: &quot;2023-02-08T06:45:06.434Z&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-08T06:45:06.434Z&quot;,
+      &quot;kind&quot;: &quot;income&quot;
+    },
+    {
+      &quot;id&quot;: 860,
+      &quot;user_id&quot;: 433,
+      &quot;name&quot;: &quot;x&quot;,
+      &quot;sign&quot;: &quot;x&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;created_at&quot;: &quot;2023-02-08T06:45:06.437Z&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-08T06:45:06.437Z&quot;,
+      &quot;kind&quot;: &quot;income&quot;
+    },
+    {
+      &quot;id&quot;: 861,
+      &quot;user_id&quot;: 433,
+      &quot;name&quot;: &quot;x&quot;,
+      &quot;sign&quot;: &quot;x&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;created_at&quot;: &quot;2023-02-08T06:45:06.439Z&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-08T06:45:06.439Z&quot;,
+      &quot;kind&quot;: &quot;income&quot;
+    },
+    {
+      &quot;id&quot;: 862,
+      &quot;user_id&quot;: 433,
+      &quot;name&quot;: &quot;x&quot;,
+      &quot;sign&quot;: &quot;x&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;created_at&quot;: &quot;2023-02-08T06:45:06.441Z&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-08T06:45:06.441Z&quot;,
+      &quot;kind&quot;: &quot;income&quot;
+    },
+    {
+      &quot;id&quot;: 863,
+      &quot;user_id&quot;: 433,
+      &quot;name&quot;: &quot;x&quot;,
+      &quot;sign&quot;: &quot;x&quot;,
+      &quot;deleted_at&quot;: null,
+      &quot;created_at&quot;: &quot;2023-02-08T06:45:06.444Z&quot;,
+      &quot;updated_at&quot;: &quot;2023-02-08T06:45:06.444Z&quot;,
+      &quot;kind&quot;: &quot;income&quot;
+    }
+  ],
+  &quot;pager&quot;: {
+    &quot;page&quot;: 1,
+    &quot;per_page&quot;: 10,
+    &quot;count&quot;: 17
   }
 }</pre>
       </div>

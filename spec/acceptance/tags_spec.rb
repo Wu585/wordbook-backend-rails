@@ -42,6 +42,28 @@ resource "标签" do
     end
   end
 
+  get "/api/v1/tags" do
+    parameter :page, '页码'
+    parameter :kind, '分类', in: ['expenses', 'income']
+    with_options :scope => :resource do
+      response_field :id, 'ID'
+      response_field :user_id, '用户ID'
+      response_field :name, '标签名'
+      response_field :sign, '符号'
+      response_field :deleted_at, '删除时间'
+      response_field :kind, '分类'
+    end
+    let(:kind) { 'income' }
+    example "根据kind获取标签" do
+      11.times { Tag.create name: 'x', sign: 'x', user_id: current_user.id, kind: 'expenses' }
+      6.times { Tag.create name: 'x', sign: 'x', user_id: current_user.id, kind: 'income' }
+      do_request
+      expect(status).to eq 200
+      json = JSON.parse response_body
+      expect(json["resource"].size).to eq 6
+    end
+  end
+
   post "api/v1/tags" do
     parameter :name, '标签名', required: true
     parameter :sign, '标签类型', required: true
