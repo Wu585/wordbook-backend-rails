@@ -24,7 +24,7 @@ class Api::V1::TagsController < ApplicationController
   def create
     current_user_id = request.env["current_user_id"]
     return head :unauthorized if current_user_id.nil?
-    tag = Tag.new name: params[:name], sign: params[:sign], user_id: current_user_id
+    tag = Tag.new name: params[:name], sign: params[:sign], kind: params[:kind], user_id: current_user_id
     if tag.save
       render json: { resource: tag }, status: :ok
     else

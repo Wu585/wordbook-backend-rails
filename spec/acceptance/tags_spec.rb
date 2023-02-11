@@ -67,21 +67,25 @@ resource "标签" do
   post "api/v1/tags" do
     parameter :name, '标签名', required: true
     parameter :sign, '标签类型', required: true
+    parameter :kind, '收入/支出', required: true
     with_options :scope => :resource do
       response_field :id, 'ID'
       response_field :user_id, '用户ID'
       response_field :name, '标签名'
       response_field :sign, '符号'
+      response_field :kind, '收入/支出'
       response_field :deleted_at, '删除时间'
     end
     let(:name) { 'x' }
     let(:sign) { 'y' }
+    let(:kind) { 'income' }
     example "创建标签" do
       do_request
       expect(status).to eq 200
       json = JSON.parse response_body
       expect(json["resource"]["name"]).to eq name
       expect(json["resource"]["sign"]).to eq sign
+      expect(json["resource"]["kind"]).to eq kind
     end
   end
 

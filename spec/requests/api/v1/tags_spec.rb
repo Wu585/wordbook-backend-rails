@@ -66,11 +66,12 @@ RSpec.describe "Api::V1::Tags", type: :request do
     end
     it '登录创建标签' do
       user = User.create email: "1@qq.com"
-      post '/api/v1/tags', params: { name: 'name', sign: 'sign' }, headers: user.generate_auth_header
+      post '/api/v1/tags', params: { name: 'name', sign: 'sign', kind: 'income' }, headers: user.generate_auth_header
       json = JSON.parse response.body
       expect(response).to have_http_status 200
       expect(json["resource"]["name"]).to eq "name"
       expect(json["resource"]["sign"]).to eq "sign"
+      expect(json["resource"]["kind"]).to eq "income"
     end
     it '登录创建失败，因为name为空' do
       user = User.create email: "1@qq.com"

@@ -137,6 +137,14 @@ table th, table td {
                   <span class="description">标签类型</span>
                 </td>
               </tr>
+              <tr>
+                <td class="required">
+                    <span class="name">kind</span>
+                </td>
+                <td>
+                  <span class="description">收入/支出</span>
+                </td>
+              </tr>
             </tbody>
           </table>
 
@@ -183,6 +191,14 @@ table th, table td {
               </tr>
               <tr>
                 <td>
+                    <span class="name">resource[kind]</span>
+                </td>
+                <td>
+                  <span class="description">收入/支出</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
                     <span class="name">resource[deleted_at]</span>
                 </td>
                 <td>
@@ -196,7 +212,7 @@ table th, table td {
 
             <h4>Headers</h4>
             <pre class="request headers">Version: HTTP/1.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0MzQsImV4cCI6MTY3NTg0NTkwNn0.l2mylx7W1WUqMwmMHzptLADe3JOlIeC3hl6A4j3bYsY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMjc4LCJleHAiOjE2NzYxMDkxMzB9.Lr3_w-VSKQ1WeR09kziqEmcxlytISXnzYdtVK2vaw4Q
 Accept: application/json
 Content-Type: application/json
 Host: example.org
@@ -207,7 +223,7 @@ Cookie: </pre>
 
 
             <h4>Body</h4>
-            <pre class="request body">{"name":"x","sign":"y"}</pre>
+            <pre class="request body">{"name":"x","sign":"y","kind":"income"}</pre>
 
 
             <h3>Response</h3>
@@ -220,24 +236,24 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;e18ad965c1ffcf56d6fab360b46c39f1&quot;
+ETag: W/&quot;d591327462353024594d12289fbb682f&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 591d8d96-95fa-4669-9053-504a8be6bb48
-X-Runtime: 0.004517
+X-Request-Id: 31a1041c-db8f-4d41-9196-e18dcc38aa0b
+X-Runtime: 0.004387
 Content-Length: 175</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
   &quot;resource&quot;: {
-    &quot;id&quot;: 864,
-    &quot;user_id&quot;: 434,
+    &quot;id&quot;: 2272,
+    &quot;user_id&quot;: 1278,
     &quot;name&quot;: &quot;x&quot;,
     &quot;sign&quot;: &quot;y&quot;,
     &quot;deleted_at&quot;: null,
-    &quot;created_at&quot;: &quot;2023-02-08T06:45:06.459Z&quot;,
-    &quot;updated_at&quot;: &quot;2023-02-08T06:45:06.459Z&quot;,
-    &quot;kind&quot;: &quot;expenses&quot;
+    &quot;created_at&quot;: &quot;2023-02-11T07:52:10.329Z&quot;,
+    &quot;updated_at&quot;: &quot;2023-02-11T07:52:10.329Z&quot;,
+    &quot;kind&quot;: &quot;income&quot;
   }
 }</pre>
       </div>
