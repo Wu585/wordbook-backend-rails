@@ -50,6 +50,15 @@ RSpec.describe "Api::V1::Tags", type: :request do
       json = JSON.parse response.body
       expect(json["resource"].size).to eq 1
     end
+    it '分页' do
+      user1 = create :user
+      11.times do |i|
+        create :tag, user: user1
+      end
+      get '/api/v1/tags?page=2', headers: user1.generate_auth_header, params: { page: 2, per_page: 8 }
+      json = JSON.parse response.body
+      expect(json["resource"].size).to eq 3
+    end
     it '根据kind获取标签列表' do
       user = User.create email: '1@qq.com'
       11.times do |i|
