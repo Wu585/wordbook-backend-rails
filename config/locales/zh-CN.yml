@@ -1,4 +1,6 @@
 zh-CN:
+  hipster:
+    - "屌丝"
   activerecord:
     errors:
       messages:

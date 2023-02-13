@@ -5,6 +5,8 @@ class Item < ApplicationRecord
   validates :happened_at, presence: true
   validates :tags_id, presence: true
 
+  belongs_to :user
+
   validate :check_tags_id_belong_to_user
 
   def check_tags_id_belong_to_user

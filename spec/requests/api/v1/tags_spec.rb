@@ -32,11 +32,15 @@ RSpec.describe "Api::V1::Tags", type: :request do
       expect(response).to have_http_status 401
     end
     it '登录后获取标签列表' do
-      user1 = User.create email: '1@qq.com'
-      user2 = User.create email: '2@qq.com'
+      user1 = create :user
+      user2 = create :user
+      # user1 = User.create email: '1@qq.com'
+      # user2 = User.create email: '2@qq.com'
       11.times do |i|
-        Tag.create name: "tag#{i}", sign: 'x', user_id: user1.id
-        Tag.create name: "x", sign: 'x', user_id: user2.id
+        create :tag, user: user1
+        create :tag, user: user2
+        # Tag.create name: "tag#{i}", sign: 'x', user_id: user1.id
+        # Tag.create name: "x", sign: 'x', user_id: user2.id
       end
       get '/api/v1/tags', headers: user1.generate_auth_header
       json = JSON.parse response.body
