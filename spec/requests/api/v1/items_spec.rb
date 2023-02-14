@@ -87,6 +87,25 @@ RSpec.describe "Items", type: :request do
     end
   end
 
+  describe "获取余额" do
+    it '未登录获取余额' do
+      get "/api/v1/items/balance?happened_after=2020-10-01&happened_before=2020-12-01"
+      expect(response).to have_http_status 401
+    end
+    it '登录后获取余额' do
+      user = create :user
+      create :item, user: user, kind: 'expenses', amount: 100, happened_at: '2020-10-01'
+      create :item, user: user, kind: 'income', amount: 200, happened_at: '2020-10-02'
+      create :item, user: user, kind: 'expenses', amount: 300, happened_at: '2020-10-03'
+      get "/api/v1/items/balance?happened_after=2020-10-01&happened_before=2020-10-02", headers: user.generate_auth_header
+      expect(response).to have_http_status :ok
+      json = JSON.parse response.body
+      expect(json["income"]).to eq 200
+      expect(json["expenses"]).to eq 100
+      expect(json["balance"]).to eq 100
+    end
+  end
+
   describe "创建账目" do
     it '未登录创建账目' do
       post "/api/v1/items", params: { amount: 99 }
@@ -154,12 +173,12 @@ RSpec.describe "Items", type: :request do
       Item.create! amount: 100, kind: 'expenses', tags_id: [tag1.id, tag2.id], happened_at: '2018-06-18T00:00:00+08:00', user_id: user.id
       Item.create! amount: 200, kind: 'expenses', tags_id: [tag2.id, tag3.id], happened_at: '2018-06-18T00:00:00+08:00', user_id: user.id
       Item.create! amount: 300, kind: 'expenses', tags_id: [tag3.id, tag1.id], happened_at: '2018-06-18T00:00:00+08:00', user_id: user.id
-      get '/api/v1/items/summary',params:{
-        happened_after:'2018-01-01',
-        happened_before:'2019-01-01',
-        kind:'expenses',
-        group_by:'tag_id'
-      },headers: user.generate_auth_header
+      get '/api/v1/items/summary', params: {
+        happened_after: '2018-01-01',
+        happened_before: '2019-01-01',
+        kind: 'expenses',
+        group_by: 'tag_id'
+      }, headers: user.generate_auth_header
       expect(response).to have_http_status 200
       json = JSON.parse response.body
       expect(json["resource"].size).to eq 3

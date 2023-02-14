@@ -25,6 +25,29 @@ class Api::V1::ItemsController < ApplicationController
     end
   end
 
+  def balance
+    current_user_id = request.env["current_user_id"]
+    return head :unauthorized if current_user_id.nil?
+    items = Item.where({ user_id: current_user_id })
+                .where({ happened_at: params[:happened_after]..params[:happened_before] })
+    income_items = []
+    expenses_items = []
+    items.each do |item|
+      if item.kind == 'income'
+        income_items << item
+      else
+        expenses_items << item
+      end
+    end
+    income = income_items.sum(&:amount)
+    expenses = expenses_items.sum(&:amount)
+    render json: {
+      income: income,
+      expenses: expenses,
+      balance: income - expenses
+    }
+  end
+
   def summary
     hash = Hash.new
     # hash : {}
