@@ -13,7 +13,7 @@ class Api::V1::ItemsController < ApplicationController
         per_page: params[:per_page] || Item.default_per_page,
         count: Item.count
       }
-    }, status: 200
+    }, methods: :tags
   end
 
   def create

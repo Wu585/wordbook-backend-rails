@@ -23,6 +23,7 @@ RSpec.describe "Items", type: :request do
       get '/api/v1/items', headers: user1.generate_auth_header
       json = JSON.parse(response.body)
       expect(json["resource"].size).to eq(10)
+      expect(json["resource"][0]["tags"].size).to eq(1)
       get '/api/v1/items?page=2', headers: user1.generate_auth_header
       json = JSON.parse(response.body)
       expect(json["resource"].size).to eq(1)

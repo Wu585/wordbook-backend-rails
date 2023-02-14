@@ -16,4 +16,7 @@ class Item < ApplicationRecord
     end
   end
 
+  def tags
+    Tag.where(id: self.tags_id)
+  end
 end
