@@ -146,6 +146,14 @@ RSpec.describe "Items", type: :request do
       expect(json["errors"]["tags_id"][0]).to eq "必填"
       expect(json["errors"]["happened_at"][0]).to eq "必填"
     end
+    it '创建账目金额不能为0' do
+      user = create :user
+      tag = create :tag,user:user
+      post '/api/v1/items', params: {amount:0,tags_id: [tag.id],happened_at: '2022-10-01'}, headers: user.generate_auth_header
+      expect(response).to have_http_status 422
+      json = JSON.parse response.body
+      expect(json["errors"]["amount"][0]).to eq '金额不能为零'
+    end
   end
 
   describe "统计数据" do

@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   enum kind: { expenses: 1, income: 2 }
   validates :amount, presence: true
+  validates :amount, numericality: { other_than: 0 }
   validates :kind, presence: true
   validates :happened_at, presence: true
   validates :tags_id, presence: true
