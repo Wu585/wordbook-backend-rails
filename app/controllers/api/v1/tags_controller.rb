@@ -50,7 +50,7 @@ class Api::V1::TagsController < ApplicationController
     tag.deleted_at = Time.now
     ActiveRecord::Base::transaction do
       begin
-        if params[:with_items]
+        if params[:with_items] == 'true'
           Item.where('tags_id && ARRAY[?]::integer[]', [tag.id])
               .update(deleted_at: Time.now)
         end
