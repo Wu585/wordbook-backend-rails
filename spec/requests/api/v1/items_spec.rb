@@ -30,6 +30,15 @@ RSpec.describe "Items", type: :request do
       json = JSON.parse(response.body)
       expect(json["resource"].size).to eq(5)
     end
+    it '按kind筛选' do
+      user = create :user
+      item1 = create :item, user: user, kind: 'expenses', amount: 200
+      item2 = create :item, user: user, kind: 'income', amount: 100
+      get '/api/v1/items?kind=income', headers: user.generate_auth_header
+      json = JSON.parse(response.body)
+      expect(json["resource"].size).to eq(1)
+      expect(json["resource"][0]["id"]).to eq item2.id
+    end
     it "按时间筛选" do
       user1 = User.create email: '1@qq.com'
       tag1 = Tag.create name: 'tag1', sign: 'x', user_id: user1.id
