@@ -192,6 +192,7 @@ RSpec.describe "Items", type: :request do
       expect(response).to have_http_status 200
       json = JSON.parse response.body
       expect(json["resource"].size).to eq 3
+      expect(json["resource"][0]["tag"]["id"]).to eq json["resource"][0]["tag_id"]
       expect(json["resource"][0]["tag_id"]).to eq tag3.id
       expect(json["resource"][0]["amount"]).to eq 500
       expect(json["resource"][1]["tag_id"]).to eq tag1.id
