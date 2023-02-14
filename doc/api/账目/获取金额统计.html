@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>单词 API</title>
+    <title>账目 API</title>
     <meta charset="utf-8">
     <style>
       
@@ -106,11 +106,11 @@ table th, table td {
   </head>
   <body>
     <div class="container">
-      <h1>单词 API</h1>
+      <h1>账目 API</h1>
 
       <div class="article">
-        <h2>修改单词</h2>
-        <h3>PATCH api/v1/words/:id</h3>
+        <h2>获取金额统计</h2>
+        <h3>GET /api/v1/items/balance</h3>
 
           <h3>Parameters</h3>
           <table class="parameters table table-striped table-bordered table-condensed">
@@ -123,18 +123,18 @@ table th, table td {
             <tbody>
               <tr>
                 <td>
-                    <span class="name">content</span>
+                    <span class="name">happened_after</span>
                 </td>
                 <td>
-                  <span class="description">单词</span>
+                  <span class="description">创建开始时间(筛选条件)</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">description</span>
+                    <span class="name">happened_before</span>
                 </td>
                 <td>
-                  <span class="description">释义</span>
+                  <span class="description">创建终点时间(筛选条件)</span>
                 </td>
               </tr>
             </tbody>
@@ -151,42 +151,26 @@ table th, table td {
             <tbody>
               <tr>
                 <td>
-                    <span class="name">resource[id]</span>
+                    <span class="name">resource[income]</span>
                 </td>
                 <td>
-                  <span class="description">ID</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                    <span class="name">resource[user_id]</span>
-                </td>
-                <td>
-                  <span class="description">用户ID</span>
+                  <span class="description">收入(单位：分)</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">resource[content]</span>
+                    <span class="name">resource[expenses]</span>
                 </td>
                 <td>
-                  <span class="description">单词</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                    <span class="name">resource[description]</span>
-                </td>
-                <td>
-                  <span class="description">释义</span>
+                  <span class="description">支出(单位：分)</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <span class="name">resource[deleted_at]</span>
+                    <span class="name">resource[balance]</span>
                 </td>
                 <td>
-                  <span class="description">删除时间</span>
+                  <span class="description">盈余(单位：分)</span>
                 </td>
               </tr>
             </tbody>
@@ -196,18 +180,19 @@ table th, table td {
 
             <h4>Headers</h4>
             <pre class="request headers">Version: HTTP/1.0
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2MDU1LCJleHAiOjE2NzYzNTA0OTF9.eDhNLqsQQbGrJIMk1oUFc6iwdBhdaSlmLU0w8qWTrAY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo2MDQxLCJleHAiOjE2NzYzNTA0OTB9.FySYdvaTwFbaFmmR45CaDUVPn6PGeu-JmYFCADtycgU
 Accept: application/json
 Content-Type: application/json
 Host: example.org
 Cookie: </pre>
 
           <h4>Route</h4>
-          <pre class="request route highlight">PATCH api/v1/words/3398</pre>
+          <pre class="request route highlight">GET /api/v1/items/balance?happened_after=2020-10-01&amp;happened_before=2020-10-02</pre>
 
+            <h4>Query Parameters</h4>
+            <pre class="request query_parameters highlight">happened_after: 2020-10-01
+happened_before: 2020-10-02</pre>
 
-            <h4>Body</h4>
-            <pre class="request body">{"content":"hi","description":"你好"}</pre>
 
 
             <h3>Response</h3>
@@ -220,24 +205,18 @@ X-Permitted-Cross-Domain-Policies: none
 Referrer-Policy: strict-origin-when-cross-origin
 Content-Type: application/json; charset=utf-8
 Vary: Accept
-ETag: W/&quot;e120e2510fd404aa0a3ff565d9a8a0bf&quot;
+ETag: W/&quot;2154ff4616c8ebbbdda6c7b665f2db00&quot;
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 0e91eb58-fac9-4a09-a7c5-dc1b2baae3ba
-X-Runtime: 0.005402
-Content-Length: 175</pre>
+X-Request-Id: d035da29-9756-4186-b1e6-a2a270196f7a
+X-Runtime: 0.003658
+Content-Length: 43</pre>
             <h4>Status</h4>
             <pre class="response status">200 OK</pre>
               <h4>Body</h4>
               <pre class="response body">{
-  &quot;resource&quot;: {
-    &quot;content&quot;: &quot;hi&quot;,
-    &quot;description&quot;: &quot;你好&quot;,
-    &quot;id&quot;: 3398,
-    &quot;user_id&quot;: 6055,
-    &quot;deleted_at&quot;: null,
-    &quot;created_at&quot;: &quot;2023-02-14T02:54:51.320Z&quot;,
-    &quot;updated_at&quot;: &quot;2023-02-14T02:54:51.320Z&quot;
-  }
+  &quot;income&quot;: 200,
+  &quot;expenses&quot;: 100,
+  &quot;balance&quot;: 100
 }</pre>
       </div>
     </div>

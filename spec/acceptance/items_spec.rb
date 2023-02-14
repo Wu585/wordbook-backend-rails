@@ -29,6 +29,29 @@ resource "账目" do
     end
   end
 
+  get "/api/v1/items/balance" do
+    parameter :happened_after, '创建开始时间(筛选条件)'
+    parameter :happened_before, '创建终点时间(筛选条件)'
+    with_options :scope => :resource do
+      response_field :income, '收入(单位：分)'
+      response_field :expenses, '支出(单位：分)'
+      response_field :balance, '盈余(单位：分)'
+    end
+    let(:happened_after) { '2020-10-01' }
+    let(:happened_before) { '2020-10-02' }
+    example "获取金额统计" do
+      create :item, user: current_user, happened_at: '2020-10-01', amount: 100, kind: 'expenses'
+      create :item, user: current_user, happened_at: '2020-10-02', amount: 200, kind: 'income'
+      create :item, user: current_user, happened_at: '2020-10-03', amount: 300
+      do_request
+      expect(status).to eq 200
+      json = JSON.parse response_body
+      expect(json["income"]).to eq 200
+      expect(json["expenses"]).to eq 100
+      expect(json["balance"]).to eq 100
+    end
+  end
+
   post "/api/v1/items" do
     parameter :amount, '金额(单位：分)', required: true
     parameter :kind, '类型', required: true, enum: ['expenses', 'income']
