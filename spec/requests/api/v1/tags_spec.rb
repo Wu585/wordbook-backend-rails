@@ -160,5 +160,16 @@ RSpec.describe "Api::V1::Tags", type: :request do
       delete "/api/v1/tags/#{tag2.id}", headers: user1.generate_auth_header
       expect(response).to have_http_status 403
     end
+    it '登录后删除标签及记账' do
+      user = create :user
+      tag = create :tag, user: user
+      create_list :item, 2, user: user, tags_id: [tag.id]
+      expect {
+        delete "/api/v1/tags/#{tag.id}?with_items=true", headers: user.generate_auth_header
+      }.to change { Item.count }.by -2
+      expect(response).to have_http_status 200
+      tag.reload
+      expect(tag.deleted_at).not_to eq nil
+    end
   end
 end
