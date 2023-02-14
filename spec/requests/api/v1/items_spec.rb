@@ -35,10 +35,10 @@ RSpec.describe "Items", type: :request do
       tag1 = Tag.create name: 'tag1', sign: 'x', user_id: user1.id
       tag2 = Tag.create name: 'tag2', sign: 'x', user_id: user1.id
       # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
-      item1 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: Time.new(2020, 5, 1), user_id: user1.id
-      item2 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: Time.new(2020, 8, 1), user_id: user1.id
-      item3 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: Time.new(2021, 5, 1), user_id: user1.id
-      get '/api/v1/items?created_after=2019-01-01&created_before=2020-10-1', headers: user1.generate_auth_header
+      item1 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2020-01-01T00:00:00+08:00", created_at: Time.new(2020, 5, 1), user_id: user1.id
+      item2 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2020-01-01T00:00:00+08:00", created_at: Time.new(2020, 8, 1), user_id: user1.id
+      item3 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2020-11-01T00:00:00+08:00", created_at: Time.new(2021, 5, 1), user_id: user1.id
+      get '/api/v1/items?happened_after=2019-01-01&happened_before=2020-10-01', headers: user1.generate_auth_header
       expect(response).to have_http_status :ok
       json = JSON.parse response.body
       expect(json["resource"].size).to eq 2
@@ -50,12 +50,13 @@ RSpec.describe "Items", type: :request do
       tag1 = Tag.create name: 'tag1', sign: 'x', user_id: user1.id
       tag2 = Tag.create name: 'tag2', sign: 'x', user_id: user1.id
       # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
-      item1 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
-      item2 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: Time.new(2021, 8, 1), user_id: user1.id
-      get '/api/v1/items?created_after=2020-05-01&created_before=2020-10-1', headers: user1.generate_auth_header
+      item1 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2020-05-01", created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
+      # Time.new 默认北京时区
+      item2 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2020-10-01", created_at: Time.new(2021, 8, 1), user_id: user1.id
+      get '/api/v1/items?happened_after=2020-05-01&happened_before=2020-10-01', headers: user1.generate_auth_header
       expect(response).to have_http_status :ok
       json = JSON.parse response.body
-      expect(json["resource"].size).to eq 1
+      expect(json["resource"].size).to eq 2
       expect(json["resource"][0]["id"]).to eq item1.id
     end
     it "按时间筛选（边界条件2）" do
@@ -63,9 +64,9 @@ RSpec.describe "Items", type: :request do
       tag1 = Tag.create name: 'tag1', sign: 'x', user_id: user1.id
       tag2 = Tag.create name: 'tag2', sign: 'x', user_id: user1.id
       # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
-      item1 = Item.create! amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
-      item2 = Item.create! amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: "2021-08-01", user_id: user1.id
-      get '/api/v1/items?created_after=2021-08-01', headers: user1.generate_auth_header
+      item1 = Item.create! amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2020-01-01", created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
+      item2 = Item.create! amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2021-08-01", created_at: "2021-08-01", user_id: user1.id
+      get '/api/v1/items?happened_after=2021-08-01', headers: user1.generate_auth_header
       expect(response).to have_http_status :ok
       json = JSON.parse response.body
       expect(json["resource"].size).to eq 1
@@ -76,9 +77,9 @@ RSpec.describe "Items", type: :request do
       tag1 = Tag.create name: 'tag1', sign: 'x', user_id: user1.id
       tag2 = Tag.create name: 'tag2', sign: 'x', user_id: user1.id
       # post '/api/v1/session', params: { email: '1@qq.com', code: '123456' }
-      item1 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
-      item2 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2018-01-01T00:00:00+08:00", created_at: "2021-08-01", user_id: user1.id
-      get '/api/v1/items?created_before=2020-05-01', headers: user1.generate_auth_header
+      item1 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2020-05-01", created_at: Time.new(2020, 5, 1, 0, 0, 0, "Z"), user_id: user1.id
+      item2 = Item.create amount: 100, tags_id: [tag1.id, tag2.id], happened_at: "2021-08-01", created_at: "2021-08-01", user_id: user1.id
+      get '/api/v1/items?happened_before=2020-05-01', headers: user1.generate_auth_header
       expect(response).to have_http_status :ok
       json = JSON.parse response.body
       expect(json["resource"].size).to eq 1
