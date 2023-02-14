@@ -22,7 +22,10 @@ function title {
   echo
 }
 
-
+title '运行测试用例'
+rspec || exit 1
+title '重新生成文档'
+bin/rails docs:generate || exit 2
 title '打包源代码为压缩文件'
 # 在哪个目录下执行就在哪个目录下创建临时目录
 mkdir -p $cache_dir
