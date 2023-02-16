@@ -5,13 +5,14 @@ class Api::V1::ItemsController < ApplicationController
     items = Item.where({ user_id: current_user_id })
                 .where({ happened_at: params[:happened_after]..params[:happened_before] })
     items = items.where(kind: params[:kind]) unless params[:kind].nil?
+    count = items.count
     items = items.page(params[:page]).per(params[:per_page])
     render json: {
       resource: items,
       pager: {
         page: params[:page] || 1,
         per_page: params[:per_page] || Item.default_per_page,
-        count: Item.where({ user_id: current_user_id }).count
+        count: count
       }
     }, methods: :tags
   end
