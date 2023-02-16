@@ -16,7 +16,7 @@ class Api::V1::TagsController < ApplicationController
       pager: {
         page: params[:page] || 1,
         per_page: params[:per_page] || Tag.default_per_page,
-        count: Tag.count
+        count: Tag.where(user_id: current_user.id).count
       }
     }
   end

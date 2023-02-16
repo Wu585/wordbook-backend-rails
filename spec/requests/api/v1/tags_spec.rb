@@ -46,6 +46,7 @@ RSpec.describe "Api::V1::Tags", type: :request do
       json = JSON.parse response.body
       expect(response).to have_http_status 200
       expect(json["resource"].size).to eq 10
+      expect(json["pager"]["count"]).to eq 11
       get '/api/v1/tags?page=2', headers: user1.generate_auth_header
       json = JSON.parse response.body
       expect(json["resource"].size).to eq 1

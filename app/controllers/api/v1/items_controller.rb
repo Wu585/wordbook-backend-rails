@@ -11,7 +11,7 @@ class Api::V1::ItemsController < ApplicationController
       pager: {
         page: params[:page] || 1,
         per_page: params[:per_page] || Item.default_per_page,
-        count: Item.count
+        count: Item.where({ user_id: current_user_id }).count
       }
     }, methods: :tags
   end

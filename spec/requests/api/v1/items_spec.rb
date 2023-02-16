@@ -24,12 +24,15 @@ RSpec.describe "Items", type: :request do
       json = JSON.parse(response.body)
       expect(json["resource"].size).to eq(10)
       expect(json["resource"][0]["tags"].size).to eq(1)
+      expect(json["pager"]["count"]).to eq 11
       get '/api/v1/items?page=2', headers: user1.generate_auth_header
       json = JSON.parse(response.body)
       expect(json["resource"].size).to eq(1)
+      expect(json["pager"]["count"]).to eq 11
       get '/api/v1/items?page=2&per_page=5', headers: user1.generate_auth_header
       json = JSON.parse(response.body)
       expect(json["resource"].size).to eq(5)
+      expect(json["pager"]["count"]).to eq 11
     end
     it '按kind筛选' do
       user = create :user
